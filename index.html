@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Editable Multi-Column </title>
+</head>
+<body>
+
+  <div id="root"></div>
+
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <script type="text/babel">
+    const App = () => {
+      const initialData = [
+        { id: 1, column1: "Apple", column2: "", column3: "", column4: "" },
+        { id: 2, column1: "Banana", column2: "", column3: "", column4: "" },
+        { id: 3, column1: "Orange", column2: "", column3: "", column4: "" },
+        { id: 4, column1: "Grapes", column2: "", column3: "", column4: "" },
+        { id: 5, column1: "Mango", column2: "", column3: "", column4: "" },
+        { id: 6, column1: "Pineapple", column2: "", column3: "", column4: "" }
+      ];
+
+    
+      const [data, setData] = React.useState(initialData);
+
+      const handleChange = (e, index, column) => {
+        const updatedData = data.map((row, rowIndex) => {
+          if (rowIndex === index) {
+            return { ...row, [column]: e.target.value };
+          }
+          return row;
+        });
+        setData(updatedData);
+      };
+
+      
+      const handleSave = () => {
+        console.log("Data ready to post:", data);
+        alert("Data is ready to post to API. Check console for details.");
+      };
+
+      return (
+        <div style={{ margin: "20px", fontFamily: "Arial, sans-serif" }}>
+      
+          <table border="1" cellPadding="9" style={{ width: "100%", borderCollapse: "collapse" }}>
+            <thead>
+              <tr>
+                <th>Column 1</th>
+                <th>Column 2</th>
+                <th>Column 3</th>
+                <th>Column 4</th>
+              </tr>
+            </thead>
+            <tbody>
+              {data.map((row, index) => (
+                <tr key={row.id}>
+                  <td>
+                    <input
+                      type="text"
+                      value={row.column1}
+                      onChange={(e) => handleChange(e, index, "column1")}
+                      style={{ width: "100%" }}
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      value={row.column2}
+                      onChange={(e) => handleChange(e, index, "column2")}
+                      style={{ width: "100%" }}
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      value={row.column3}
+                      onChange={(e) => handleChange(e, index, "column3")}
+                      style={{ width: "100%" }}
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      value={row.column4}
+                      onChange={(e) => handleChange(e, index, "column4")}
+                      style={{ width: "100%" }}
+                    />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <button onClick={handleSave} style={{ marginTop: "10px", padding: "10px 20px" }}>
+            Save Changes
+          </button>
+        </div>
+      );
+    };
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+
+</body>
+</html>
